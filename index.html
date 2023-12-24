@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<title>Nasa News</title>
+</head>
+<body>
+	<div class="container">
+		<div class="mx-auto my-3 text-center">
+			<h1 class="text-center"><span id="title"></span> News</h1>
+			<hr>
+			
+			<div id="app">
+				
+				
+			</div>
+			<a href="news-nasa/" id="nasa-link">News Nasa</a>
+			<a href="#" id="ago-link">Previous News</a>
+		</div>
+	</div>
+
+	<script>
+		let nasa_url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
+		let app = document.querySelector('#app')
+		let title = document.querySelector("#title")
+		let NasaLink = document.querySelector('#nasa-link')
+		let AgoLink = document.querySelector('#ago-link')
+
+		async function getArticleNasa(url) {
+			title.textContent = "Nasa"
+			let response = await fetch(url)
+			let data = await response.json()
+			app.innerHTML = `
+				<article>
+					<img src="${data.url}" style="width:100%;">
+					<p><b>Description:</b> ${data.explanation.toLowerCase()}</p>
+					<br>
+					<small>date: ${data.date}</small>
+				</article>
+			`
+			}
+		async function getArticleAgo(){
+			title.textContent = "Previous"
+			app.innerHTML = `
+		<img src="https://apod.nasa.gov/apod/image/2312/ngc2440e_hst_960.jpg" style="width:100%;">
+		<p><b>Description: </b>Description: what's that in the center? like a butterfly, a white dwarf star begins its life by casting off a cocoon of gas that enclosed its former self. in this analogy, however, the sun would be a caterpillar and the ejected shell of gas would become the prettiest cocoon of all. in the featured cocoon, the planetary nebula designated ngc 2440 contains one of the hottest white dwarf stars known. the white dwarf can be seen as the bright orange dot near the image center. our sun will eventually become a white dwarf butterfly, but not for another 5 billion years.</p>
+			<small>date: 2023-12-24</small>
+
+			`
+	
+		
+		}
+		getArticleNasa(nasa_url)
+
+		NasaLink.addEventListener('click',e=>{
+			e.preventDefault()
+			getArticleNasa(nasa_url)
+		})
+		AgoLink.addEventListener('click',e=>{
+			e.preventDefault()
+			getArticleAgo()
+		})
+		</script>
+</body>
+</html>
